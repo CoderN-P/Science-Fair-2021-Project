@@ -1,0 +1,27 @@
+import time
+import board
+
+from adafruit_seesaw.seesaw import Seesaw
+
+i2c_bus = board.I2C()
+
+ss = Seesaw(i2c_bus, addr=0x36)
+
+
+needs_to_water = False
+
+
+class SoilMoisture:
+    def __init__(self):
+        self.needs_to_water = False
+        self.soil_moisture = None
+        self.temperature = None
+
+    def background_reading(self):
+        while True:
+            self.soil_moisture = ss.moisture_read()
+            self.temperature = ss.temperature_read()
+            if self.soil_moisture < 400:
+                self.needs_to_water = True
+
+            time.sleep(10)
