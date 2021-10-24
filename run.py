@@ -1,8 +1,8 @@
-from mongo_methods import *
+from mongo_methods import get_device
 from plant_watering import water_plant
 from main import soil_moisture1
 
-PIN = 7
+PIN = 11
 
 
 def main_process():

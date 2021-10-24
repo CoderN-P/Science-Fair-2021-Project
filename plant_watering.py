@@ -10,3 +10,4 @@ def water_plant(pin: int, seconds: int) -> None:
     time.sleep(seconds)
     relay.off()
     set_update(datetime.now())
+    print("Watered plant!!")

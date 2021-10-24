@@ -1,9 +1,11 @@
 import time
-import board
+from board import SCL, SDA
+import busio
 
 from adafruit_seesaw.seesaw import Seesaw
 
-i2c_bus = board.I2C()
+
+i2c_bus = busio.I2C(SCL, SDA)
 
 ss = Seesaw(i2c_bus, addr=0x36)
 
@@ -20,7 +22,10 @@ class SoilMoisture:
     def background_reading(self):
         while True:
             self.soil_moisture = ss.moisture_read()
-            self.temperature = ss.temperature_read()
+            self.temperature = ss.get_temp()
+            print(
+                f"Soil Moisture: {self.soil_moisture}, Temperature: {self.temperature}"
+            )
             if self.soil_moisture < 400:
                 self.needs_to_water = True
 
