@@ -1,5 +1,5 @@
 import pymongo, dns
-import commands, os
+import socket, os
 
 client = pymongo.MongoClient(os.getenv("MONGOURI"))
 
@@ -7,7 +7,8 @@ db = client.main_data
 
 registered_devices = db.registered_devices
 
-ip = commands.getoutput("hostname -I")
+h_name = socket.gethostname()
+ip = socket.gethostbyname(h_name)
 
 
 def check_devices() -> None:
