@@ -32,7 +32,7 @@ def update_last_watered(time) -> None:
     registered_devices.update_one({"_id": ip}, {"$set": {"last_watered": time}})
 
 
-def update_readings(temperature: float, soil_moisture: int) -> None:
+def update_readings(soil_moisture: int, temperature: float) -> None:
     registered_devices.update_one(
         {"_id": ip},
         {"$set": {"temperature": temperature, "soil_moisture": soil_moisture}},
