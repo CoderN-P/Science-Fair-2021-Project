@@ -18,13 +18,11 @@ class SoilMoisture:
 
     def background_reading(self):
         while True:
-            self.soil_moisture = ss.moisture_read()
+            self.soil_moisture = int(ss.moisture_read())
+            print(self.soil_moisture)
+            update_readings(self.soil_moisture, self.temperature)
             self.temperature = ss.get_temp()
-            update_readings(int(self.soil_moisture), float(self.temperature))
-            print(
-                f"Soil Moisture: {self.soil_moisture}, Temperature: {self.temperature}"
-            )
-            if self.soil_moisture < 400:
-                self.needs_to_water = True
+            if self.soil_moisture < 800:
+                    self.needs_to_water = True
 
             time.sleep(10)
