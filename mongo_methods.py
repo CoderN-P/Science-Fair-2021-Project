@@ -1,16 +1,14 @@
 import pymongo, dns
-import socket, os
+import subprocess, os
 
 client = pymongo.MongoClient(os.getenv("MONGOURI"))
 
 db = client.main_data
-
+print(os.getenv("MONGOURI"))
 registered_devices = db.registered_devices
 
-h_name = socket.gethostname()
-ip = socket.gethostbyname(h_name)
-
-
+ip = subprocess.getoutput('hostname -I').split(' ')[0]
+print(ip)
 def check_devices() -> None:
     if not registered_devices.count_documents({"_id": ip}):
         registered_devices.insert_one(
@@ -33,7 +31,7 @@ def update_last_watered(time) -> None:
     registered_devices.update_one({"_id": ip}, {"$set": {"last_watered": time}})
 
 
-def update_readings(soil_moisture: int, temperature: float) -> None:
+def update_readings(soil_moisture, temperature) -> None:
     registered_devices.update_one(
         {"_id": ip},
         {"$set": {"temperature": temperature, "soil_moisture": soil_moisture}},
