@@ -18,7 +18,7 @@ def check_devices() -> None:
                 "seconds_to_water": 10,
                 "last_watered": None,
                 "temperature": None,
-                "soil_moisture": None,
+                "soil_moisture": [],
             }
         )
 
