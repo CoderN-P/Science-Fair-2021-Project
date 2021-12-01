@@ -1,15 +1,19 @@
 import time
-from board import SCL, SDA
-import busio
 from mongo_methods import update_readings
-from adafruit_seesaw.seesaw import Seesaw
+import chirp
 from plant_watering import water_plant
 from mongo_methods import get_device
 import datetime
 
-i2c_bus = busio.I2C(SCL, SDA)
 
-ss = Seesaw(i2c_bus, addr=0x36)
+chirp = chirp.Chirp(
+    address=0x20,
+    read_moist=True,
+    read_temp=True,
+    read_light=True,
+    temp_scale="celsius",
+    temp_offset=0,
+)
 
 
 class SoilMoisture:
@@ -20,9 +24,10 @@ class SoilMoisture:
 
     def background_reading(self):
         while True:
-            self.soil_moisture = int(ss.moisture_read())
+            chirp.trigger()
+            self.soil_moisture = int(chirp.moist)
             print(self.soil_moisture)
-            self.temperature = ss.get_temp()
+            self.temperature = chirp.temp
             if self.data_num % 6 == 0:
                 update_readings(self.soil_moisture, self.temperature)
             self.data_num += 1
