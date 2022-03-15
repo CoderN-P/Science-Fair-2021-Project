@@ -5,7 +5,9 @@
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
-      "args": [],
+      "args": [
+        ""
+      ],
       "stopAtEntry": true,
       "cwd": "/Users/neel123/Desktop/python/Science-Fair-2021-Project",
       "environment": [],
