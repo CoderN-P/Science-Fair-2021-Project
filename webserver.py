@@ -1,16 +1,20 @@
 import flask
 from plant_watering import water_plant
+from flask import request
 from mongo_methods import get_device
 from flask_cors import cross_origin
 
 app = flask.Flask(__name__)
 
 
-@app.route("/webhook", methods="GET")
+@app.route("/webhook", methods="POST")
 @cross_origin()
 def webhook():
-    seconds = get_device()["seconds_to_water"]
-    water_plant(seconds)
+    data = request.get_json()
+    device = get_device()
+    if data["password"] != device["password"]:
+        return "Wrong password"
+    water_plant(device["seconds_to_water"])
     return "success"
 
 
